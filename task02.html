@@ -567,12 +567,19 @@ function __regCap(c){if(!__caps.includes(c)){c.__base=c.position.clone();__caps.
 (()=>{const a3=document.getElementById('pA3'),a4=document.getElementById('pA4');if(!a3)return;
   let st=null,home=null,wasCad=false;
   function restore(){const sv=document.getElementById('sheet'),box=document.getElementById('printbox');
+    if(sv)sv.querySelectorAll('g.wm').forEach(e=>e.remove());
     if(home&&sv&&box&&sv.parentNode===box){home.p.insertBefore(sv,home.n);if(wasCad)sv.classList.add('cad')}
     if(box)box.remove();if(st)st.remove();st=null;home=null}
   function go(a4m){restore();const sv=document.getElementById('sheet');
     st=document.createElement('style');st.textContent=a4m?'@page{size:A4 landscape;margin:5mm}#printbox #sheet{--pw:287mm;--ph:200mm}':'@page{size:A3 landscape;margin:0}#printbox #sheet{--pw:420mm;--ph:297mm}';
     document.head.appendChild(st);const box=document.createElement('div');box.id='printbox';document.body.appendChild(box);
     home={p:sv.parentNode,n:sv.nextSibling};wasCad=sv.classList.contains('cad');sv.classList.remove('cad');box.appendChild(sv);
+    {const NS='http://www.w3.org/2000/svg',g=document.createElementNS(NS,'g');g.setAttribute('class','wm');g.setAttribute('aria-hidden','true');
+     let h='';const W='한국폴리텍대학 진주캠퍼스 자동화과';
+     for(let r=0;r<5;r++)for(let c=0;c<3;c++){const x=-40+c*170+(r%2)*85,y=40+r*62;
+       h+=`<text x="${x}" y="${y}" transform="rotate(-20 ${x} ${y})" font-size="12" font-weight="700" style="fill:#000;fill-opacity:.055;stroke:none;font-family:IBM Plex Sans KR,Malgun Gothic,sans-serif">${W}</text>`}
+     h+=`<text x="210" y="160" text-anchor="middle" transform="rotate(-20 210 150)" font-size="22" font-weight="700" style="fill:#000;fill-opacity:.045;stroke:none;font-family:IBM Plex Sans KR,Malgun Gothic,sans-serif">${W}</text>`;
+     g.innerHTML=h;sv.appendChild(g)}
     setTimeout(()=>{try{window.print()}catch(e){restore()}
       setTimeout(()=>document.addEventListener('pointerdown',restore,{once:true}),300)},50)}
   window.addEventListener('afterprint',()=>setTimeout(restore,0));
