@@ -103,6 +103,14 @@ footer{font-size:12px;color:var(--muted);text-align:right}
   #printbox #sheet.nodim g.dimg:not(.show) .qbox{fill:#fff;fill-opacity:1;stroke:#000;stroke-width:.2}
   #printbox #sheet.nodim g.dimg.show text{fill:#000}
 }
+
+/* 모델링 영상 */
+#pvid .vbox{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;display:flex;flex-direction:column;gap:10px}
+#pvid video{width:100%;max-height:72vh;background:#111;border-radius:4px;display:block}
+#pvid .chap{display:flex;flex-wrap:wrap;gap:6px}
+#pvid .chap button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:5px;padding:4px 10px;cursor:pointer;font-variant-numeric:tabular-nums}
+#pvid .chap button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+#pvid .note{font-size:13px;color:var(--muted);margin:0}
 </style>
 
 <div class="wrap">
@@ -116,6 +124,7 @@ footer{font-size:12px;color:var(--muted);text-align:right}
       <div class="seg" role="group" aria-label="보기 전환">
         <button id="tab2d" aria-pressed="true">2D 도면 (A3)</button>
         <button id="tab3d" aria-pressed="false">3D 모델</button>
+        <button id="tabVid" aria-pressed="false">모델링 영상</button>
       </div>
       <div class="seg" role="group" aria-label="선 표시">
         <button id="mMono" aria-pressed="true">흑백 출력</button>
@@ -151,6 +160,13 @@ footer{font-size:12px;color:var(--muted);text-align:right}
       </div>
       <canvas id="c3d"></canvas>
       <div class="hint">드래그로 회전, 휠로 확대. 방향 버튼을 누르면 해당 투상도와 같은 방향에서 봅니다.</div>
+    </div>
+  </section>
+  <section id="pvid" hidden>
+    <div class="vbox">
+      <video id="vid" controls preload="metadata" playsinline src="videos/t15_inventor.mp4"></video>
+      <div class="chap" id="chap"><button data-t="0">0:00 소개</button><button data-t="4.5">0:04 1 새 부품 파일 만들기</button><button data-t="8.5">0:08 2 스케치1</button><button data-t="17.5">0:17 3 돌출1</button><button data-t="24.5">0:24 4 스케치2 + 돌출2</button><button data-t="34.5">0:34 5 스케치3 + 돌출3</button><button data-t="44.5">0:44 6 구멍1</button><button data-t="53.5">0:53 7 구멍2</button><button data-t="62.5">1:02 8 스케치6</button><button data-t="73.5">1:13 9 돌출4</button><button data-t="80.5">1:20 10 구멍3</button><button data-t="89.5">1:29 11 모깎기1</button><button data-t="97.5">1:37 완성</button></div>
+      <p class="note">Autodesk Inventor 2026 기준 3D 모델링 순서 (약 1분 48초, 소리 없음). 단계 버튼을 누르면 그 장면으로 이동합니다.</p>
     </div>
   </section>
 
@@ -591,7 +607,7 @@ function start3D(){
 }
 
 const tab2d=document.getElementById('tab2d'),tab3d=document.getElementById('tab3d');
-function showTab(is3){document.getElementById('p2d').hidden=is3;document.getElementById('p3d').hidden=!is3;
+function showTab(is3){{const pv=document.getElementById('pvid');if(pv){pv.hidden=true;document.getElementById('tabVid').setAttribute('aria-pressed',false);document.getElementById('vid').pause()}}document.getElementById('p2d').hidden=is3;document.getElementById('p3d').hidden=!is3;
   tab2d.setAttribute('aria-pressed',!is3);tab3d.setAttribute('aria-pressed',is3);if(is3)start3D()}
 tab2d.onclick=()=>showTab(false);tab3d.onclick=()=>showTab(true);
 const sheet=document.getElementById('sheet'),mMono=document.getElementById('mMono'),mCad=document.getElementById('mCad');
@@ -663,5 +679,16 @@ function __regCap(c){if(!__caps.includes(c)){c.__base=c.position.clone();__caps.
       setTimeout(()=>document.addEventListener('pointerdown',restore,{once:true}),300)},50)}
   window.addEventListener('afterprint',()=>setTimeout(restore,0));
   a3.onclick=()=>go(false);a4.onclick=()=>go(true);
+})();
+
+/* ===== 모델링 영상 탭 ===== */
+(()=>{const tv=document.getElementById('tabVid'),pv=document.getElementById('pvid'),v=document.getElementById('vid');if(!tv)return;
+  const t2=document.getElementById('tab2d'),t3=document.getElementById('tab3d');
+  function vidOn(on){pv.hidden=!on;tv.setAttribute('aria-pressed',on);if(on){document.getElementById('p2d').hidden=true;document.getElementById('p3d').hidden=true;
+    t2.setAttribute('aria-pressed',false);t3.setAttribute('aria-pressed',false)}else v.pause()}
+  tv.addEventListener('click',()=>vidOn(true));t2.addEventListener('click',()=>vidOn(false));t3.addEventListener('click',()=>vidOn(false));
+  const bs=[...document.querySelectorAll('#chap button')];
+  bs.forEach(b=>b.onclick=()=>{v.currentTime=+b.dataset.t;v.play().catch(()=>{})});
+  v.addEventListener('timeupdate',()=>{let k=0;bs.forEach((b,i)=>{if(v.currentTime>=+b.dataset.t-.05)k=i});bs.forEach((b,i)=>b.classList.toggle('on',i===k))});
 })();
 </script>
