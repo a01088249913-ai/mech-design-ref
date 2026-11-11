@@ -1,0 +1,88 @@
+<title>기계요소설계작업 참고도면</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 레이아웃: 도면 목록표(표제란) 느낌의 머리 + 과제 20개 격자, 위 검색 */
+:root{
+  --paper:#f3f5f2; --sheet:#ffffff; --ink:#1c2420; --muted:#5d6a63; --rule:#c9d2cc; --dim:#c8323c; --hover:#eaf0ec;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#141917;--sheet:#1b211e;--ink:#e3e9e5;--muted:#9aa8a0;--rule:#33403a;--dim:#ff6b72;--hover:#222a26;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#141917;--sheet:#1b211e;--ink:#e3e9e5;--muted:#9aa8a0;--rule:#33403a;--dim:#ff6b72;--hover:#222a26;color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+header{display:grid;grid-template-columns:1fr auto;gap:0;border:1.5px solid var(--ink);background:var(--sheet)}
+header .t{padding:18px 20px;display:grid;gap:6px;min-width:0}
+header h1{margin:0;font-size:clamp(22px,3.4vw,30px);font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:62ch}
+.tb{display:grid;grid-template-columns:auto auto;border-left:1.5px solid var(--ink);font-size:13px}
+.tb div{padding:8px 12px;border-bottom:1px solid var(--rule);white-space:nowrap}
+.tb div:nth-child(odd){color:var(--muted);border-right:1px solid var(--rule)}
+.tb div:nth-last-child(-n+2){border-bottom:0}
+.tb .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.bar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.bar label{display:flex;align-items:center;gap:8px;flex:1 1 260px;max-width:420px}
+.bar input{flex:1;min-width:0;font:inherit;padding:9px 12px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);border-radius:2px}
+.bar input:focus-visible{outline:2px solid var(--dim);outline-offset:2px}
+.bar .count{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+a.card{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center;padding:14px 16px;border:1px solid var(--rule);background:var(--sheet);color:inherit;text-decoration:none;border-radius:2px;min-width:0}
+a.card:hover{background:var(--hover);border-color:var(--ink)}
+a.card:focus-visible{outline:2px solid var(--dim);outline-offset:2px}
+.no{grid-row:1 / span 2;font-family:var(--f-mono);font-weight:500;font-size:22px;width:2.4ch;text-align:center;color:var(--dim);border:1.5px solid currentColor;border-radius:50%;aspect-ratio:1;display:grid;place-items:center;line-height:1}
+.nm{font-weight:500;min-width:0}
+.sub{font-size:12.5px;color:var(--muted)}
+.sub b{font-weight:500;color:var(--ink)}
+.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--rule)}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:14px;color:var(--muted)}
+.tools a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--dim);text-underline-offset:3px}
+footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between}
+@media (max-width:620px){header{grid-template-columns:1fr}.tb{border-left:0;border-top:1.5px solid var(--ink)}}
+@media (prefers-reduced-motion:no-preference){a.card{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="t">
+      <h1>기계요소설계작업 참고도면</h1>
+      <p>자동화설비기능사 시험1 공개문제 20과제의 학습용 참고도면입니다. 과제마다 A3 2D 도면(KS 제도), 단면도, 등각 투상도와 돌려 볼 수 있는 3D 모델이 들어 있습니다.</p>
+    </div>
+    <div class="tb" aria-label="도면 정보">
+      <div>종목</div><div>자동화설비기능사</div>
+      <div>작업</div><div>기계요소설계작업</div>
+      <div>용지</div><div>A3 · 제3각법</div>
+      <div>과제 수</div><div class="num">20</div>
+    </div>
+  </header>
+
+  <div class="bar">
+    <label for="q">과제 찾기 <input id="q" type="search" placeholder="번호 또는 이름 (예: 18, 브래킷)" autocomplete="off"></label>
+    <span class="count" id="count"></span>
+  </div>
+
+  <main class="grid" id="grid" aria-live="polite"></main>
+
+  <div class="tools">관련 학습 도구: <a href="trainer.html">투상 트레이너</a></div>
+
+  <footer>
+    <span>공개도면에 치수가 없는 과제는 등각도 비율로 잰 학습용 치수입니다. 실제 채점 기준과 다를 수 있습니다.</span>
+    <span>제작자: 한국폴리텍대학 진주캠퍼스 자동화과 장성욱</span>
+  </footer>
+</div>
+
+<script>
+const TASKS=[
+ [1,"단품 브래킷","TVRVHje4PieMXd65opp11Q"],[2,"45° 레버","AEdw8WbYVPc5cbB3HByw8j"],[3,"클램프 링 브래킷","FHw9cUtADrG28qsGNQihXz"],
+ [4,"칼라 하우징 브래킷","DXAfT1r6mhhqcLwdS8FMbL"],[5,"베어링 하우징 블록","AfzZG4eB5ckGWh1nLNUJFe"],[6,"제네바 휠","VG6SXTX7mY6YEyYx5JbM9g"],
+ [7,"장공 레버 링크","KUvZsSCMak3VAiiFt1BkUe"],[8,"굽은 암 브래킷","9vjWs1NGiKVRqEYjV6qJco"],[9,"플랜지 허브","DeQJBm1WjRgDaeDQErAMaZ"],
+ [10,"클레비스 브래킷","VNfujxSbJwP7NtAW78gTGs"],[11,"삼각 플랜지 하우징","LAzvhy7Tb5MG1ikNPbCtA6"],[12,"삼각 허브 플레이트","W9Y9QCjuowbZxy1eWLdV8b"],
+ [13,"행거 브래킷","H2qadrgqAhFETerVBiCPoa"],[14,"기둥 스탠드","J5hEgCp3FcZpVuYd3Ri9Rh"],[15,"요크 브래킷","6fiDWtM6yWMT7vmxWMv8jK"],
+ [16,"베어링 브래킷","X4t5xTvNqBingdYvx6Gg4s"],[17,"파이프 클램프 스탠드","R8NTeDpS7J7K4uVdynXJo4"],[18,"축받이 하우징","BG3agSsWGr84EVLiaKWhb8"],
+ [19,"관 클램프","SLiMGTArHnsB4yg5sxmmg9"],[20,"보스 브래킷","CXvDzhnjAUrwFdLBnipsro"]];
+const grid=document.getElementById('grid'),q=document.getElementById('q'),count=document.getElementById('count');
+function render(){const k=q.value.trim().replace(/번$/,'');const list=TASKS.filter(([n,name])=>!k||String(n)===k||name.includes(k));
+  grid.innerHTML=list.length?list.map(([n,name,id])=>`<a class="card" href="task${String(n).padStart(2,'0')}.html"><span class="no">${n}</span><span class="nm">${n}번 과제 · ${name}</span><span class="sub">공개도면 <b>${'①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'[n-1]}</b> · 2D + 3D 참고도면</span></a>`).join(''):`<div class="empty">"${k.replace(/[<>&]/g,'')}"에 맞는 과제가 없습니다. 번호(1~20)나 부품 이름으로 찾아 보세요.</div>`;
+  count.textContent=`${list.length} / ${TASKS.length} 과제`}
+q.addEventListener('input',render);render();
+</script>

@@ -1,0 +1,575 @@
+<title>4번 과제 참고도면</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+<style>
+/* Layout: drafting-table page — header bar, A3 sheet on a muted table surface, notes beneath */
+:root{
+  --bg:#e7ebe8; --surface:#f6f8f6; --fg:#1d2420; --muted:#5b6660; --line:#c5ccc7;
+  --accent:#2f6b57; --accent-ink:#ffffff;
+  --paper:#ffffff; --ink:#111111;
+  --f-body:"IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-cad:"Nanum Gothic Coding", "D2Coding", "Consolas", monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#151a18; --surface:#1d2421; --fg:#e4ebe7; --muted:#97a39c; --line:#33403a;
+  --accent:#6fbf9f; --accent-ink:#0f1513; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151a18; --surface:#1d2421; --fg:#e4ebe7; --muted:#97a39c; --line:#33403a;
+  --accent:#6fbf9f; --accent-ink:#0f1513; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding-block:20px 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;margin-bottom:4px}.nav a{color:var(--accent);text-decoration:none;font-weight:600}.nav a:hover{text-decoration:underline}.nav a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.nav .off{color:var(--muted);opacity:.5}
+.eyebrow{font-family:var(--f-cad);font-size:12px;letter-spacing:.08em;color:var(--muted)}
+h1{margin:2px 0 0;font-size:24px;font-weight:700;text-wrap:balance}
+.controls{display:flex;flex-wrap:wrap;gap:8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
+.seg button{font:inherit;font-size:13px;border:0;background:transparent;color:var(--fg);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.seg button:focus-visible,.vbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sheetbox{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px}
+#sheet{display:block;width:100%;min-width:640px;height:auto;background:var(--paper);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+#sheet text{font-family:var(--f-cad)}
+/* 흑백 출력 모드: 모든 선은 검정, 굵기만 다름 */
+#sheet .bd{stroke:var(--ink);stroke-width:.7;fill:none}
+#sheet .ol{stroke:var(--ink);stroke-width:.35;fill:none;stroke-linejoin:round}
+#sheet .hd{stroke:var(--ink);stroke-width:.25;fill:none;stroke-dasharray:2 1}
+#sheet .dm{stroke:var(--ink);stroke-width:.18;fill:none}
+#sheet .cl{stroke:var(--ink);stroke-width:.18;fill:none;stroke-dasharray:8 1.2 1.2 1.2}
+#sheet .ar{fill:var(--ink);stroke:none}
+#sheet .tx{fill:var(--ink);font-size:3.5px}
+#sheet .tb{fill:var(--ink);font-size:3.5px;font-weight:700}
+#sheet .in{stroke:var(--ink);stroke-width:.25;fill:none}
+#sheet .pp{fill:var(--paper)}
+#sheet .hl{stroke:var(--ink);stroke-width:.18}
+#sheet .hr{fill:url(#hatch);stroke:none}
+/* CAD 색상 모드 */
+#sheet.cad{--paper:#000;--ink:#fff}
+#sheet.cad .bd{stroke:#00ffff}
+#sheet.cad .ol{stroke:#00ff00}
+#sheet.cad .hd,#sheet.cad .in{stroke:#ffff00}
+#sheet.cad .dm,#sheet.cad .cl{stroke:#ff3b3b}
+#sheet.cad .ar{fill:#ff3b3b}
+#sheet.cad .tx,#sheet.cad .tb{fill:#ffff00}
+#sheet.cad .isoimg{filter:invert(1)}
+#sheet.cad .hl{stroke:#ffffff}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 18px;min-width:0}
+.card h2{font-size:15px;margin:0 0 8px}
+.card p,.card li{font-size:14px;color:var(--fg);margin:0}
+.card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+table.lw{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+table.lw td,table.lw th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
+table.lw th{color:var(--muted);font-weight:500}
+.sw{display:inline-block;width:28px;vertical-align:middle;border-top-style:solid;border-top-color:currentColor}
+.chip{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;border:1px solid var(--line)}
+.view3d{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+#c3d{display:block;width:100%;height:520px;touch-action:none;cursor:grab}
+.vbar{display:flex;flex-wrap:wrap;gap:6px;padding:10px;border-bottom:1px solid var(--line);align-items:center}
+.vbtn{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:5px;padding:5px 10px;cursor:pointer}
+.vbtn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}
+.vbar label{font-size:13px;display:inline-flex;gap:6px;align-items:center}
+.vbar label:first-of-type{margin-left:auto}
+.hint{font-size:12px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
+footer{font-size:12px;color:var(--muted);text-align:right}
+.note{font-size:13px;color:var(--muted)}
+
+/* 단면 위치 슬라이더 · 치수 가리기 */
+.secpos{display:inline-flex;gap:6px;align-items:center;font-size:13px;flex-wrap:wrap}
+.secpos[hidden]{display:none}
+.secpos input[type=range]{width:160px;accent-color:var(--accent)}
+.secpos output{font-variant-numeric:tabular-nums;min-width:7.5em;color:var(--muted)}
+#sheet.nodim g.dimg text{visibility:hidden}
+#sheet.nodim g.dimg.show text{visibility:visible}
+#sheet .qbox{display:none}
+#sheet.nodim g.dimg:not(.show) .qbox{display:inline;fill:var(--accent);fill-opacity:.22;stroke:var(--accent);stroke-width:.25;cursor:pointer}
+#sheet.nodim g.dimg:not(.show) .qbox:hover{fill-opacity:.45}
+#sheet.nodim g.dimg.show text{fill:var(--accent)}
+#sheet.nodim.cad g.dimg.show text{fill:#ff9df0}
+#sheet.nodim *{pointer-events:none}
+#sheet.nodim g.dimg .qbox,#sheet.nodim g.dimg.show text{pointer-events:all;cursor:pointer}
+.dimstat{font-size:12px;color:var(--muted);align-self:center;font-variant-numeric:tabular-nums}
+.dimstat[hidden]{display:none}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <nav class="nav" aria-label="과제 이동"><a href="index.html">☰ 참고도면 목록</a><a href="task03.html">← 3번</a><a href="task05.html">5번 →</a></nav>
+      <div class="eyebrow">자동화설비기능사 · 기계요소설계작업 · 공개도면 ④</div>
+      <h1>4번 과제 참고도면 (칼라 하우징 브래킷)</h1>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="보기 전환">
+        <button id="tab2d" aria-pressed="true">2D 도면 (A3)</button>
+        <button id="tab3d" aria-pressed="false">3D 모델</button>
+      </div>
+      <div class="seg" role="group" aria-label="선 표시">
+        <button id="mMono" aria-pressed="true">흑백 출력</button>
+        <button id="mCad" aria-pressed="false">CAD 색상</button>
+      </div>
+      <div class="seg" role="group" aria-label="치수 연습">
+        <button id="mDim" aria-pressed="false" title="치수 문자를 가리고, 칸을 눌러 하나씩 확인">치수 가리기</button>
+        <button id="mDimAll" hidden>모두 보기</button>
+      </div>
+      <span class="dimstat" id="dimStat" hidden></span>
+    </div>
+  </header>
+
+  <section id="p2d">
+    <div class="sheetbox"><svg id="sheet" viewBox="0 0 420 297" xmlns="http://www.w3.org/2000/svg" aria-label="A3 참고도면"></svg></div>
+    <p class="note">A3 420×297, 1:1 기준 좌표로 그렸습니다. 화면에서는 용지 크기에 맞춰 축소되어 보입니다.</p>
+  </section>
+
+  <section id="p3d" hidden>
+    <div class="view3d">
+      <div class="vbar">
+        <button class="vbtn" data-v="front">정면도 방향</button>
+        <button class="vbtn" data-v="top">평면도 방향</button>
+        <button class="vbtn" data-v="right">우측면도 방향</button>
+        <button class="vbtn" data-v="iso" aria-pressed="true">등각</button>
+        <label><input type="checkbox" id="sec"> 단면 A-A 보기 (해칭)</label>
+        <span class="secpos" id="secPosBox" hidden>단면 위치 <input type="range" id="secPos" min="-50" max="50" step="0.5" value="0" aria-label="단면 위치"><output id="secOut">A-A</output><button class="vbtn" id="secReset" type="button">A-A로</button></span>
+      </div>
+      <canvas id="c3d"></canvas>
+      <div class="hint">드래그로 회전, 휠로 확대. 방향 버튼을 누르면 해당 투상도와 같은 방향에서 봅니다.</div>
+    </div>
+  </section>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>선 굵기 기준 (문제지 나-3)</h2>
+      <table class="lw">
+        <tr><th>용도</th><th>굵기</th><th>CAD 색</th></tr>
+        <tr><td>윤곽선, 중심 마크</td><td>0.70</td><td><span class="chip" style="background:#00ffff"></span>cyan</td></tr>
+        <tr><td>외형선, 개별주서</td><td>0.35</td><td><span class="chip" style="background:#00ff00"></span>green</td></tr>
+        <tr><td>숨은선, 치수문자, 일반주서</td><td>0.25</td><td><span class="chip" style="background:#ffff00"></span>yellow</td></tr>
+        <tr><td>치수선, 치수보조선, 중심선</td><td>0.18</td><td><span class="chip" style="background:#ff3b3b"></span>red</td></tr>
+        <tr><td>해칭</td><td>0.18</td><td><span class="chip" style="background:#ffffff"></span>white</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>이 도면 읽는 법</h2>
+      <ul>
+        <li>정면도는 칼라가 보이는 앞쪽에서 본 외형도입니다. 몸체는 위아래가 R25 반원인 단면이고, 양쪽 팔 아랫면은 아래 R25에 접선으로 이어집니다. 칼라(Ø40) 끝의 C4 모따기와 홈 2개(폭 12, 깊이 10), 앞뒤 관통 장공(길이 40)이 보입니다.</li>
+        <li>우측면도는 대칭면(A-A) 단면입니다. 보어, 보스 구멍이 보어로 이어지는 모양, 앞판 장공, 칼라 홈 깊이가 숨은선 없이 보입니다.</li>
+        <li>보어 Ø24H7이 끼워맞춤 자리이고, 위 보스 구멍 Ø20은 보어까지 뚫려 있습니다.</li>
+        <li>공개도면에는 치수가 없어 등각도 비율로 잰 학습용 치수입니다.</li></ul>
+    </div>
+  </div>
+  <footer>제작자: 한국폴리텍대학 진주캠퍼스 자동화과 장성욱</footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ================= 2D A3 SHEET ================= */
+const S=[];
+/* 치수 묶음: 치수 함수 출력은 <g class="dimg">로 묶음 (치수 가리기용) */
+let __dd=0;['dimH','dimV','dimA','dimArc','leader'].forEach(n=>{const o=window[n];if(typeof o!=='function')return;
+  window[n]=function(...a){if(!__dd++)S.push('<g class="dimg">');try{return o.apply(this,a)}finally{if(!--__dd)S.push('</g>')}}});
+
+const f=n=>+n.toFixed(2);
+const R2=Math.SQRT1_2;
+function L(x1,y1,x2,y2,c){S.push(`<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" class="${c}"/>`)}
+function PL(pts,c,closed){S.push(`<${closed?'polygon':'polyline'} points="${pts.map(p=>f(p[0])+','+f(p[1])).join(' ')}" class="${c}"/>`)}
+function C(x,y,r,c){S.push(`<circle cx="${f(x)}" cy="${f(y)}" r="${r}" class="${c}"/>`)}
+function T(x,y,s,c='tx',a='middle',rot=0){S.push(`<text x="${f(x)}" y="${f(y)}" text-anchor="${a}" class="${c}"${rot?` transform="rotate(${f(rot)} ${f(x)} ${f(y)})"`:''}>${s}</text>`)}
+function AR(x,y,dx,dy){const bx=x-dx*3,by=y-dy*3,px=-dy*.6,py=dx*.6;
+  S.push(`<polygon class="ar" points="${f(x)},${f(y)} ${f(bx+px)},${f(by+py)} ${f(bx-px)},${f(by-py)}"/>`)}
+function dimH(xa,xb,ya,yb,yd,t){
+  const s=yd<Math.min(ya,yb)?-1:1;
+  if(Math.abs(yd-ya)>.5)L(xa,ya+s,xa,yd+s*2,'dm');
+  if(Math.abs(yd-yb)>.5)L(xb,yb+s,xb,yd+s*2,'dm');
+  if(xb-xa>=8){L(xa,yd,xb,yd,'dm');AR(xa,yd,-1,0);AR(xb,yd,1,0)}
+  else{L(xa-5,yd,xb+5,yd,'dm');AR(xa,yd,1,0);AR(xb,yd,-1,0)}
+  T((xa+xb)/2,yd-1,t);
+}
+function dimV(ya,yb,xa,xb,xd,t){
+  const s=xd<Math.min(xa,xb)?-1:1;
+  if(Math.abs(xd-xa)>.5)L(xa+s,ya,xd+s*2,ya,'dm');
+  if(Math.abs(xd-xb)>.5)L(xb+s,yb,xd+s*2,yb,'dm');
+  if(yb-ya>=8){L(xd,ya,xd,yb,'dm');AR(xd,ya,0,-1);AR(xd,yb,0,1)}
+  else{L(xd,ya-5,xd,yb+5,'dm');AR(xd,ya,0,1);AR(xd,yb,0,-1)}
+  T(xd-1,(ya+yb)/2,t,'tx','middle',-90);
+}
+// 평행(기울어진) 치수: p1,p2 측정점, off = 치수선까지의 화면 벡터
+function dimA(p1,p2,off,t){
+  const a=[p1[0]+off[0],p1[1]+off[1]],b=[p2[0]+off[0],p2[1]+off[1]];
+  const ol=Math.hypot(...off),ox=off[0]/ol,oy=off[1]/ol;
+  L(p1[0]+ox,p1[1]+oy,a[0]+ox*2,a[1]+oy*2,'dm');L(p2[0]+ox,p2[1]+oy,b[0]+ox*2,b[1]+oy*2,'dm');
+  const dx=b[0]-a[0],dy=b[1]-a[1],dl=Math.hypot(dx,dy),ux=dx/dl,uy=dy/dl;
+  L(...a,...b,'dm');AR(...a,-ux,-uy);AR(...b,ux,uy);
+  let ang=Math.atan2(dy,dx)*180/Math.PI;if(ang>90)ang-=180;if(ang<-90)ang+=180;
+  const m=[(a[0]+b[0])/2,(a[1]+b[1])/2],nx=Math.sin(ang*Math.PI/180),ny=-Math.cos(ang*Math.PI/180);
+  T(m[0]+nx*1,m[1]+ny*1,t,'tx','middle',ang);
+}
+function leader(x1,y1,x2,y2,len,t){L(x1,y1,x2,y2,'dm');L(x2,y2,x2+len,y2,'dm');
+  const d=Math.hypot(x1-x2,y1-y2);AR(x1,y1,(x1-x2)/d,(y1-y2)/d);
+  T(len>0?x2+1:x2-1,y2-1,t,'tx',len>0?'start':'end')}
+function hatch(pts){S.push(`<polygon points="${pts.map(p=>f(p[0])+','+f(p[1])).join(' ')}" class="hr"/>`);PL(pts,'ol',true)}
+function arcPts(cx,cy,r,a0,a1,n=12){const P=[];for(let i=0;i<=n;i++){const a=(a0+(a1-a0)*i/n)*Math.PI/180;P.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}return P}
+function stadium(x1,x2,y,r,n=12){return [...arcPts(x2,y,r,-90,90,n),...arcPts(x1,y,r,90,270,n)]}
+// 가림 처리: 모델 좌표 폴리라인을 가리는 영역 밖만 그림
+function clipDraw(pts,occ,map,cls,closed){
+  const P=closed?[...pts,pts[0]]:pts;let run=[];
+  const flush=()=>{if(run.length>1)PL(run.map(p=>map(...p)),cls);run=[]};
+  for(let i=0;i<P.length-1;i++){const[a,b]=[P[i],P[i+1]];const n=Math.max(1,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/.25));
+    for(let k=0;k<n;k++){const t0=k/n,t1=(k+1)/n;const p0=[a[0]+(b[0]-a[0])*t0,a[1]+(b[1]-a[1])*t0],p1=[a[0]+(b[0]-a[0])*t1,a[1]+(b[1]-a[1])*t1];
+      const m=[(p0[0]+p1[0])/2,(p0[1]+p1[1])/2];
+      if(occ.some(o=>o(...m))){flush()}else{if(!run.length)run.push(p0);run.push(p1)}}}
+  flush();
+}
+
+// ---- 해칭 패턴, 용지, 윤곽선, 중심마크
+S.push(`<defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="2.5" height="2.5" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="2.5" class="hl"/></pattern></defs>`);
+S.push(`<rect x="0" y="0" width="420" height="297" class="pp"/>`);
+S.push(`<rect x="10" y="10" width="400" height="277" class="bd"/>`);
+L(210,5,210,15,'bd');L(210,282,210,292,'bd');L(5,148.5,15,148.5,'bd');L(405,148.5,415,148.5,'bd');
+S.push(`<rect x="10" y="10" width="60" height="30" class="ol"/>`);
+L(10,20,70,20,'in');L(10,30,70,30,'in');L(35,20,35,40,'in');
+T(40,16.6,'자동화설비기능사');T(22.5,26.6,'비 번 호');T(22.5,36.6,'감독위원');T(68,36.6,'(인)','tx','end');
+S.push(`<rect x="310" y="272" width="100" height="15" class="ol"/>`);
+L(325,272,325,287,'in');L(370,272,370,287,'in');L(385,272,385,287,'in');L(370,279.5,410,279.5,'in');
+T(317.5,280.8,'과제명');T(347.5,280.8,'기계요소설계작업');
+T(377.5,277,'척 도');T(397.5,277,'1:1');T(377.5,284.5,'각 법');T(397.5,284.5,'제3각법');
+
+/* ================= 형상 정의 (mm) =================
+ X: 앞(-) → 뒤(+), 칼라 X -18~0, 앞판 X 0~6, 몸체 X 0~45
+ Y: 폭 (몸체 0~50, 대칭면 Y=25), 양쪽 팔 Y -42~0 / 50~92
+ Z: 위쪽 (몸체 바닥 Z=0), 보어 중심 Z=70, 앞판 아래 반원 끝 Z=-25 */
+const W=50,YC=25,R=25,ZC=70,LEN=45,PT=6;
+const COL={x0:-18,ro:20,ri:12,nw:12,nd:10,ch:4};   // 칼라: Ø40 (끝 모따기 C4), 보어 Ø24, 홈 폭 12 깊이 10
+const BOSS={x:22.5,r:17,rh:10,top:98};             // 위 보스 Ø34, 구멍 Ø20 (보어까지 관통)
+const ARM={x0:6,x1:34,ext:42,top:25,tip:8};        // 양쪽 팔
+const SLOT={w:11,z0:-4,z1:36};                      // 앞판 세로 장공
+// 팔 아랫면: 끝에서 몸체 아래 R25 반원에 접선으로 이어짐
+const ATAN=(()=>{const P=[-ARM.ext,ARM.tip],dx=P[0]-YC,dz=P[1],d=Math.hypot(dx,dz);const a=Math.atan2(dz,dx)+Math.acos(R/d);
+  return [YC+R*Math.cos(a),R*Math.sin(a),a*180/Math.PI]})();
+const ATd=((ATAN[2]%360)+360)%360;
+const ARMP_L=[[-ARM.ext,ARM.tip],[-ARM.ext,ARM.top],[0,ARM.top],[0,0],...arcPts(YC,0,R,180,ATd,16).slice(1,-1),[ATAN[0],ATAN[1]]];
+const ARMP_R=ARMP_L.map(([y,z])=>[W-y,z]);
+const STAD=[...arcPts(YC,ZC,R,0,180,32),...arcPts(YC,0,R,180,360,32)];   // 앞판 외형 (Y,Z)
+const SLOTP=[...arcPts(YC,SLOT.z1-SLOT.w/2,SLOT.w/2,0,180,12),...arcPts(YC,SLOT.z0+SLOT.w/2,SLOT.w/2,180,360,12)];
+
+/* ---------- 정면도 (-X 쪽, 칼라가 보이는 면) ---------- */
+const OX=84,OY=247;
+const FV=(Y,Z)=>[OX+Y,OY-Z];
+const fp=pts=>pts.map(p=>FV(...p));
+PL(fp(STAD),'ol',true);
+PL(fp([[0,ARM.top],[-ARM.ext,ARM.top],[-ARM.ext,ARM.tip],[ATAN[0],ATAN[1]]]),'ol');PL(fp([[W,ARM.top],[W+ARM.ext,ARM.top],[W+ARM.ext,ARM.tip],[W-ATAN[0],ATAN[1]]]),'ol');
+PL(fp(SLOTP),'ol',true);
+for(const r of [COL.ro,COL.ri])C(...FV(YC,ZC),r,'ol');
+{const r=COL.ro-COL.ch,da=Math.asin(COL.nw/2/r)*180/Math.PI;          // 모따기 안쪽 원 (홈에서 끊김)
+ PL(arcPts(YC,ZC,r,da,180-da,40).map(p=>FV(...p)),'ol');PL(arcPts(YC,ZC,r,180+da,360-da,40).map(p=>FV(...p)),'ol');}
+for(const s of [-1,1])for(const z of [ZC-COL.nw/2,ZC+COL.nw/2])L(...FV(YC+s*COL.ri,z),...FV(YC+s*COL.ro,z),'ol');
+{const zb=ZC+Math.sqrt(R*R-BOSS.r*BOSS.r);PL(fp([[YC-BOSS.r,zb],[YC-BOSS.r,BOSS.top],[YC+BOSS.r,BOSS.top],[YC+BOSS.r,zb]]),'ol')}
+L(...FV(YC,-29),...FV(YC,BOSS.top+4),'cl');L(...FV(YC-COL.ro-4,ZC),...FV(YC+COL.ro+4,ZC),'cl');
+L(...FV(YC-SLOT.w,SLOT.z0+SLOT.w/2),...FV(YC+SLOT.w,SLOT.z0+SLOT.w/2),'cl');L(...FV(YC-SLOT.w,SLOT.z1-SLOT.w/2),...FV(YC+SLOT.w,SLOT.z1-SLOT.w/2),'cl');
+dimH(FV(-ARM.ext,0)[0],FV(W+ARM.ext,0)[0],FV(-ARM.ext,ARM.top)[1],FV(W+ARM.ext,ARM.top)[1],FV(0,BOSS.top+12)[1],String(W+2*ARM.ext));
+dimH(FV(0,0)[0],FV(W,0)[0],FV(0,ZC)[1],FV(W,ZC)[1],FV(0,BOSS.top+5)[1],String(W));
+dimV(FV(0,ARM.top)[1],FV(0,ARM.tip)[1],FV(-ARM.ext,0)[0],FV(-ARM.ext,0)[0],FV(-ARM.ext-6,0)[0],String(ARM.top-ARM.tip));
+dimV(FV(0,ARM.top)[1],FV(0,0)[1],FV(-ARM.ext,0)[0],FV(0,0)[0],FV(-ARM.ext-13,0)[0],String(ARM.top));
+dimV(FV(0,ZC)[1],FV(0,0)[1],FV(W+ARM.ext,ZC)[0],FV(W,0)[0],FV(W+ARM.ext+8,0)[0],String(ZC));
+dimV(FV(0,SLOT.z1)[1],FV(0,SLOT.z0)[1],FV(YC+SLOT.w/2,SLOT.z1)[0],FV(YC+SLOT.w/2,SLOT.z0)[0],FV(W+8,0)[0],String(SLOT.z1-SLOT.z0));
+dimH(FV(YC-SLOT.w/2,0)[0],FV(YC+SLOT.w/2,0)[0],FV(0,SLOT.z0+SLOT.w/2)[1],FV(0,SLOT.z0+SLOT.w/2)[1],FV(0,-30)[1],String(SLOT.w));
+{const p=FV(...[YC+R*Math.cos(-Math.PI/4),R*Math.sin(-Math.PI/4)]);leader(p[0],p[1],p[0]+12,p[1]+8,8,'R25')}
+{const p=FV(YC+COL.ro*Math.cos(Math.PI/3),ZC+COL.ro*Math.sin(Math.PI/3));leader(p[0],p[1],p[0]+26,p[1]-8,8,'Ø'+2*COL.ro)}
+{const p=FV(YC+COL.ri*Math.cos(-Math.PI/3),ZC+COL.ri*Math.sin(-Math.PI/3));leader(p[0],p[1],p[0]+34,p[1]+10,12,'Ø'+2*COL.ri+'H7')}
+dimV(FV(0,ZC+COL.nw/2)[1],FV(0,ZC-COL.nw/2)[1],FV(YC-COL.ro,0)[0],FV(YC-COL.ro,0)[0],FV(YC-COL.ro-6,0)[0],String(COL.nw));
+{const p=FV(YC-(COL.ro-1)*R2,ZC+(COL.ro-1)*R2);leader(p[0],p[1],p[0]-10,p[1]-12,-6,'C'+COL.ch)}
+
+/* ---------- 평면도 (위에서 봄, 정면도 위) ---------- */
+const TY=112;
+const TV=(Y,X)=>[OX+Y,TY-X];
+const tp=pts=>pts.map(p=>TV(...p));
+PL(tp([[0,0],[0,LEN],[W,LEN],[W,0]]),'ol',true);
+PL(tp([[YC-COL.ro,0],[YC-COL.ro,COL.x0+COL.ch],[YC-COL.ro+COL.ch,COL.x0],[YC+COL.ro-COL.ch,COL.x0],[YC+COL.ro,COL.x0+COL.ch],[YC+COL.ro,0]]),'ol');
+L(...TV(YC-COL.ro,COL.x0+COL.ch),...TV(YC+COL.ro,COL.x0+COL.ch),'ol');
+PL(tp([[0,ARM.x0],[-ARM.ext,ARM.x0],[-ARM.ext,ARM.x1],[0,ARM.x1]]),'ol');
+PL(tp([[W,ARM.x0],[W+ARM.ext,ARM.x0],[W+ARM.ext,ARM.x1],[W,ARM.x1]]),'ol');
+C(...TV(YC,BOSS.x),BOSS.r,'ol');C(...TV(YC,BOSS.x),BOSS.rh,'ol');
+L(...TV(YC,COL.x0-4),...TV(YC,LEN+4),'cl');L(...TV(YC-BOSS.r-4,BOSS.x),...TV(YC+BOSS.r+4,BOSS.x),'cl');
+dimV(TV(0,LEN)[1],TV(0,0)[1],TV(W,LEN)[0],TV(W,0)[0],TV(W+ARM.ext+8,0)[0],String(LEN));
+dimV(TV(0,0)[1],TV(0,COL.x0)[1],TV(YC+COL.ro,0)[0],TV(YC+COL.ro,COL.x0)[0],TV(W+ARM.ext+8,0)[0],String(-COL.x0));
+dimV(TV(0,ARM.x1)[1],TV(0,ARM.x0)[1],TV(-ARM.ext,ARM.x1)[0],TV(-ARM.ext,ARM.x0)[0],TV(-ARM.ext-6,0)[0],String(ARM.x1-ARM.x0));
+dimV(TV(0,ARM.x0)[1],TV(0,0)[1],TV(-ARM.ext,ARM.x0)[0],TV(0,0)[0],TV(-ARM.ext-6,0)[0],String(ARM.x0));
+dimV(TV(0,BOSS.x)[1],TV(0,0)[1],TV(W+ARM.ext,BOSS.x)[0],TV(W,0)[0],TV(W+ARM.ext+15,0)[0],String(BOSS.x));
+{const p=TV(YC+BOSS.r*R2,BOSS.x+BOSS.r*R2);leader(p[0],p[1],p[0]+10,p[1]-10,8,'Ø'+2*BOSS.r)}
+{const p=TV(YC-BOSS.rh*R2,BOSS.x+BOSS.rh*R2);leader(p[0],p[1],p[0]-16,p[1]-18,-8,'Ø20')}
+
+/* ---------- 우측면도 = 단면 A-A (대칭면 Y=25, +Y 쪽에서 봄) ---------- */
+const RX=207;
+const RV=(X,Z)=>[RX+X,OY-Z];
+const rp=pts=>pts.map(p=>RV(...p));
+const zbT=ZC+COL.ri,zbB=ZC-COL.ri,ztop=ZC+R,hx0=BOSS.x-BOSS.rh,hx1=BOSS.x+BOSS.rh;
+hatch(rp([[0,-R],[LEN,-R],[LEN,SLOT.z0],[0,SLOT.z0]]));
+hatch(rp([[0,SLOT.z1],[LEN,SLOT.z1],[LEN,zbB],[COL.x0,zbB],[COL.x0,ZC-COL.ro+COL.ch],[COL.x0+COL.ch,ZC-COL.ro],[0,ZC-COL.ro]]));
+hatch(rp([[COL.x0,zbT],[hx0,zbT],[hx0,BOSS.top],[BOSS.x-BOSS.r,BOSS.top],[BOSS.x-BOSS.r,ztop],[0,ztop],[0,ZC+COL.ro],[COL.x0+COL.ch,ZC+COL.ro],[COL.x0,ZC+COL.ro-COL.ch]]));
+hatch(rp([[hx1,zbT],[LEN,zbT],[LEN,ztop],[BOSS.x+BOSS.r,ztop],[BOSS.x+BOSS.r,BOSS.top],[hx1,BOSS.top]]));
+// 단면 너머 보이는 선: 보스 구멍 윗모서리·보어와 만나는 곡선, 장공 벽, 칼라 홈
+L(...RV(hx0,BOSS.top),...RV(hx1,BOSS.top),'ol');
+PL([...Array(25)].map((_,i)=>{const t=Math.PI+Math.PI*i/24;const x=BOSS.x+BOSS.rh*Math.cos(t),y=YC+BOSS.rh*Math.sin(t);return RV(x,ZC+Math.sqrt(COL.ri**2-(y-YC)**2))}),'ol');
+// 관통 장공 너머: 장공 벽 양 끝선과 반원이 시작되는 접선
+for(const x of [0,LEN])L(...RV(x,SLOT.z0),...RV(x,SLOT.z1),'ol');
+for(const z of [SLOT.z0+SLOT.w/2,SLOT.z1-SLOT.w/2])L(...RV(0,z),...RV(LEN,z),'ol');
+PL(rp([[COL.x0,ZC-COL.nw/2],[COL.x0+COL.nd,ZC-COL.nw/2],[COL.x0+COL.nd,ZC+COL.nw/2],[COL.x0,ZC+COL.nw/2]]),'ol');
+// 보어 너머: 칼라 끝면·몸체 뒷면에서 보어가 끝나는 선
+L(...RV(COL.x0,zbB),...RV(COL.x0,ZC-COL.nw/2),'ol');L(...RV(COL.x0,ZC+COL.nw/2),...RV(COL.x0,zbT),'ol');
+L(...RV(LEN,zbB),...RV(LEN,zbT),'ol');
+L(...RV(COL.x0-4,ZC),...RV(LEN+4,ZC),'cl');L(...RV(BOSS.x,zbT-4),...RV(BOSS.x,BOSS.top+4),'cl');
+T(...RV(13,-38),'A-A','tb');
+dimV(RV(0,BOSS.top)[1],RV(0,-R)[1],RV(LEN,BOSS.top)[0],RV(PT,-R)[0],RV(LEN+14,0)[0],String(BOSS.top+R));
+dimV(RV(0,BOSS.top)[1],RV(0,ZC)[1],RV(BOSS.x+BOSS.r,BOSS.top)[0],RV(LEN+4,ZC)[0],RV(LEN+7,0)[0],String(BOSS.top-ZC));
+dimH(RV(COL.x0,0)[0],RV(COL.x0+COL.nd,0)[0],RV(COL.x0,ZC-COL.nw/2)[1],RV(COL.x0+COL.nd,ZC-COL.nw/2)[1],RV(0,ZC-COL.ro-6)[1],String(COL.nd));
+dimV(RV(0,SLOT.z1)[1],RV(0,SLOT.z0)[1],RV(LEN,SLOT.z1)[0],RV(LEN,SLOT.z0)[0],RV(LEN+7,0)[0],String(SLOT.z1-SLOT.z0));
+
+/* ---------- 주서 ---------- */
+T(274,230,'주 서','tb','start');
+T(274,237,'1. 일반공차 : KS B ISO 2768-m','tx','start');
+T(274,243,'2. 도시되고 지시없는 모따기 C1','tx','start');
+T(274,249,'3. 우측면도는 대칭면 단면(A-A)','tx','start');
+T(274,255,'4. 장공은 앞뒤 관통','tx','start');
+S.push(`<image class="isoimg" id="isoImg" x="0" y="0" width="0" height="0" href=""/>`,`<text id="isoLbl" class="tx" text-anchor="middle" x="0" y="0"></text>`);
+document.getElementById('sheet').innerHTML=S.join('');
+
+/* ================= 3D MODEL ================= */
+const CX=13,CZ=35,CY=25;
+function shp(pts){const s=new THREE.Shape();s.moveTo(...pts[0]);pts.slice(1).forEach(p=>s.lineTo(...p));s.closePath();return s}
+function pathOf(pts){const s=new THREE.Path();s.moveTo(...pts[0]);pts.slice(1).forEach(p=>s.lineTo(...p));s.closePath();return s}
+function circAt(cx,cy,r,n=48){return arcPts(cx,cy,r,0,360,n).slice(0,-1)}
+function fixWinding(g){for(const k of ['position','normal','uv']){const at=g.attributes[k];if(!at)continue;const n=at.itemSize,a=at.array;
+  for(let t=0;t<a.length;t+=3*n)for(let i=0;i<n;i++){const s=a[t+n+i];a[t+n+i]=a[t+2*n+i];a[t+2*n+i]=s}}return g}
+function exYZ(outer,holes,x0,x1){const s=shp(outer);holes.forEach(h=>s.holes.push(pathOf(h)));
+  const g=new THREE.ExtrudeGeometry(s,{depth:x1-x0,bevelEnabled:false,curveSegments:24});
+  g.applyMatrix4(new THREE.Matrix4().set(0,0,1,x0-CX, 0,1,0,-CZ, 1,0,0,-CY, 0,0,0,1));return fixWinding(g)}
+function exXY(outer,holes,z0,z1){const s=shp(outer);holes.forEach(h=>s.holes.push(pathOf(h)));
+  const g=new THREE.ExtrudeGeometry(s,{depth:z1-z0,bevelEnabled:false,curveSegments:24});
+  g.applyMatrix4(new THREE.Matrix4().set(1,0,0,-CX, 0,0,1,z0-CZ, 0,1,0,-CY, 0,0,0,1));return fixWinding(g)}
+// 같은 점 개수의 (Y,Z) 다각형 두 개를 X 방향으로 이어 붙인 입체 (바깥쪽을 향하도록 면 방향 정리)
+function loftYZ(P0,x0,P1,x1){
+  const Wv=(x,y,z)=>new THREE.Vector3(x-CX,z-CZ,y-CY);const tri=[];
+  const area=P0.reduce((s,p,i)=>{const q=P0[(i+1)%P0.length];return s+p[0]*q[1]-q[0]*p[1]},0);const ccw=area>0;
+  const push=(a,b,c,nm)=>{const n=new THREE.Vector3().subVectors(b,a).cross(new THREE.Vector3().subVectors(c,a));
+    const want=new THREE.Vector3(nm[0],nm[2],nm[1]);if(n.dot(want)<0)tri.push(a,c,b);else tri.push(a,b,c)};
+  const N=P0.length;
+  for(let i=0;i<N;i++){const j=(i+1)%N;const dy=P0[j][0]-P0[i][0],dz=P0[j][1]-P0[i][1];const nm=ccw?[0,dz,-dy]:[0,-dz,dy];
+    const a=Wv(x0,...P0[i]),b=Wv(x0,...P0[j]),c=Wv(x1,...P1[j]),d=Wv(x1,...P1[i]);push(a,b,c,nm);push(a,c,d,nm)}
+  for(const [P,x,sg] of [[P0,x0,-1],[P1,x1,1]]){const v=P.map(p=>new THREE.Vector2(p[0],p[1]));
+    for(const t of THREE.ShapeUtils.triangulateShape(v,[]))push(Wv(x,...P[t[0]]),Wv(x,...P[t[1]]),Wv(x,...P[t[2]]),[sg,0,0])}
+  const g=new THREE.BufferGeometry().setFromPoints(tri);g.computeVertexNormals();return g}
+function partGeos(){
+  const G=[],bore=circAt(YC,ZC,COL.ri,64);
+  // 몸체 = 위아래 R25 반원(스타디움) 단면, 장공 관통; 보스 구멍 구간은 구멍 자리를 비운 단면
+  G.push(exYZ(STAD,[SLOTP,bore],0,BOSS.x-BOSS.rh));
+  G.push(exYZ(STAD,[SLOTP,bore],BOSS.x+BOSS.rh,LEN));
+  const aL=Math.acos(-BOSS.rh/R)*180/Math.PI,aR=Math.acos(BOSS.rh/R)*180/Math.PI;
+  const zB=ZC+Math.sqrt(COL.ri**2-BOSS.rh**2),bL=180-Math.acos(BOSS.rh/COL.ri)*180/Math.PI,bR=Math.acos(BOSS.rh/COL.ri)*180/Math.PI;
+  const mid=[...arcPts(YC,ZC,R,aL,180,24),...arcPts(YC,0,R,180,360,32),...arcPts(YC,ZC,R,0,aR,24),[YC+BOSS.rh,zB],...arcPts(YC,ZC,COL.ri,bR,bL-360,64).slice(1,-1),[YC-BOSS.rh,zB]];
+  G.push(exYZ(mid,[SLOTP],BOSS.x-BOSS.rh,BOSS.x+BOSS.rh));
+  // 보스(구멍 포함) + 구멍 둘레 채움
+  G.push(exXY(circAt(BOSS.x,YC,BOSS.r,64),[circAt(BOSS.x,YC,BOSS.rh,48)],ZC,BOSS.top));
+  for(const [sx,sy] of [[-1,-1],[1,-1],[1,1],[-1,1]]){
+    const cx=BOSS.x,cy=YC,h=BOSS.rh,a0=Math.atan2(0,sx)*180/Math.PI;
+    const pts=[[cx+sx*h,cy+sy*h],[cx,cy+sy*h],...arcPts(cx,cy,h,sy>0?90:270,sx>0?(sy>0?0:360):180,12).slice(1,-1),[cx+sx*h,cy]];
+    G.push(exXY(pts,[],ZC+COL.ri,BOSS.top));
+  }
+  // 양쪽 팔
+  G.push(exYZ(ARMP_L,[],ARM.x0,ARM.x1));G.push(exYZ(ARMP_R,[],ARM.x0,ARM.x1));
+  // 칼라: 뒤쪽 통 링 + 앞쪽 홈 2개
+  G.push(exYZ(circAt(YC,ZC,COL.ro,64),[bore],COL.x0+COL.nd,0));
+  // 칼라 앞쪽: 폭 12 홈이 끝면을 가로질러 일자로 파여 위·아래 두 조각, 끝 모따기 C4는 원뿔면으로 이어 붙임
+  const dz=COL.nw/2;
+  const piece=(r,up)=>{const oa=Math.asin(dz/r)*180/Math.PI,ia=Math.asin(dz/COL.ri)*180/Math.PI,n=40;
+    const o=up?arcPts(YC,ZC,r,oa,180-oa,n):arcPts(YC,ZC,r,180+oa,360-oa,n);
+    const i=up?arcPts(YC,ZC,COL.ri,180-ia,ia,n):arcPts(YC,ZC,COL.ri,360-ia,180+ia,n);return [...o,...i]};
+  for(const up of [true,false]){
+    G.push(loftYZ(piece(COL.ro-COL.ch,up),COL.x0,piece(COL.ro,up),COL.x0+COL.ch));
+    G.push(exYZ(piece(COL.ro,up),[],COL.x0+COL.ch,COL.x0+COL.nd));
+  }
+  return G;
+}
+// 단면 해칭 텍스처
+function hatchTex(bg,fg){const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d');
+  x.fillStyle=bg;x.fillRect(0,0,64,64);x.strokeStyle=fg;x.lineWidth=4;
+  for(let i=-64;i<=128;i+=32){x.beginPath();x.moveTo(i,64);x.lineTo(i+64,0);x.stroke()}
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(200,200);return t}
+const CUT=new THREE.Plane(new THREE.Vector3(0,0,-1),1e4);window.__CUT=CUT;  // A-A: Y=25, 앞쪽(+Y) 반 제거
+const W3=(X,Y,Z)=>new THREE.Vector3(X-CX,Z-CZ,Y-CY);
+function tangentSegs(){const S=[];
+  // 반원 윗면이 옆면과 만나는 접선, 앞판 아래 반원 접선
+  for(const y of [0,W])S.push([[0,y,ZC],[LEN,y,ZC]],[[0,y,0],[LEN,y,0]]);
+  for(const y of [ATAN[0],W-ATAN[0]])S.push([[ARM.x0,y,ATAN[1]],[ARM.x1,y,ATAN[1]]]);
+  // 장공 끝 반원 접선
+  for(const z of [SLOT.z0+SLOT.w/2,SLOT.z1-SLOT.w/2])for(const y of [YC-SLOT.w/2,YC+SLOT.w/2])S.push([[0,y,z],[LEN,y,z]]);
+  return S}
+function buildPart(colorMat,capTex){
+  const g=new THREE.Group(),geos=partGeos();
+  colorMat.clippingPlanes=[CUT];colorMat.polygonOffset=true;colorMat.polygonOffsetFactor=1;colorMat.polygonOffsetUnits=1;
+  const nMat=new THREE.MeshNormalMaterial({side:THREE.DoubleSide,clippingPlanes:[CUT],polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
+  for(const geo of geos){const m=new THREE.Mesh(geo,colorMat);m.userData={c:colorMat,n:nMat};g.add(m)}
+  // 접선(탄젠트) 모서리선: 곡면과 평면이 매끄럽게 이어지는 경계선
+  const tg=tangentSegs(),tv=[];for(const [a,b] of tg)tv.push(W3(...a),W3(...b));
+  const tl=new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(tv),new THREE.LineBasicMaterial({color:0x111111,clippingPlanes:[CUT]}));
+  // 법선 패스에도 선을 넣어 윤곽선 검출이 같은 굵기로 다시 그리게 함 → 다른 모서리처럼 진하게
+  tl.userData={c:tl.material,n:new THREE.LineBasicMaterial({color:0x000000,clippingPlanes:[CUT]})};g.add(tl);
+  const helpers=new THREE.Group();helpers.visible=false;
+  for(const geo of geos)for(const [side,op] of [[THREE.BackSide,THREE.IncrementWrapStencilOp],[THREE.FrontSide,THREE.DecrementWrapStencilOp]]){
+    const mt=new THREE.MeshBasicMaterial({side,clippingPlanes:[CUT],depthWrite:false,depthTest:false,colorWrite:false,
+      stencilWrite:true,stencilFunc:THREE.AlwaysStencilFunc,stencilFail:op,stencilZFail:op,stencilZPass:op});
+    const h=new THREE.Mesh(geo,mt);h.renderOrder=1;helpers.add(h)}
+  g.add(helpers);
+  const st={stencilWrite:true,stencilRef:0,stencilFunc:THREE.NotEqualStencilFunc,stencilFail:THREE.ReplaceStencilOp,stencilZFail:THREE.ReplaceStencilOp,stencilZPass:THREE.ReplaceStencilOp};
+  const capC=new THREE.MeshBasicMaterial({map:capTex,side:THREE.DoubleSide,...st}),capN=new THREE.MeshNormalMaterial({side:THREE.DoubleSide,...st});
+  const cap=new THREE.Mesh(new THREE.PlaneGeometry(640,640),capC);cap.position.z=YC-CY;
+  cap.userData={c:capC,n:capN};cap.renderOrder=2;cap.visible=false;cap.onAfterRender=r=>r.clearStencil();g.add(cap);
+  g.userData.setSection=on=>{CUT.constant=on?(YC-CY):1e4;helpers.visible=on;cap.visible=on,__regCap(cap)};
+  return g;
+}
+/* ---- 화면공간 모서리선 렌더러 (법선·깊이 불연속 검출) ---- */
+function OutlineRenderer(renderer,lineHex){
+  const opt={minFilter:THREE.NearestFilter,magFilter:THREE.NearestFilter,stencilBuffer:true};
+  const cRT=new THREE.WebGLRenderTarget(4,4,opt),nRT=new THREE.WebGLRenderTarget(4,4,opt);
+  nRT.depthTexture=new THREE.DepthTexture(4,4);nRT.depthTexture.format=THREE.DepthStencilFormat;nRT.depthTexture.type=THREE.UnsignedInt248Type;
+  const q=new THREE.Mesh(new THREE.PlaneGeometry(2,2),new THREE.ShaderMaterial({
+    uniforms:{tC:{value:cRT.texture},tN:{value:nRT.texture},tD:{value:nRT.depthTexture},res:{value:new THREE.Vector2(4,4)},th:{value:1},lc:{value:new THREE.Color(lineHex)}},
+    vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=vec4(position.xy,0.,1.);}',
+    fragmentShader:`uniform sampler2D tC,tN,tD;uniform vec2 res;uniform float th;uniform vec3 lc;varying vec2 v;
+      float D(vec2 o){return texture2D(tD,v+o).x;}
+      vec3 N(vec2 o){return texture2D(tN,v+o).xyz*2.-1.;}
+      void main(){vec2 px=th/res;
+        float d=D(vec2(0)),dl=D(vec2(-px.x,0)),dr=D(vec2(px.x,0)),du=D(vec2(0,px.y)),dd=D(vec2(0,-px.y));
+        float lap=abs(dl+dr-2.*d)+abs(du+dd-2.*d);
+        vec3 n=N(vec2(0));
+        float nd=max(max(1.-dot(n,N(vec2(-px.x,0))),1.-dot(n,N(vec2(px.x,0)))),max(1.-dot(n,N(vec2(0,px.y))),1.-dot(n,N(vec2(0,-px.y)))));
+        float e=max(step(.0015,lap),step(.12,nd));
+        vec4 c=texture2D(tC,v);gl_FragColor=vec4(mix(c.rgb,lc,e),max(c.a,e));}`,
+    transparent:true,depthTest:false,depthWrite:false}));
+  const qs=new THREE.Scene();qs.add(q);const qc=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+  const swap=(scene,k)=>scene.traverse(o=>{if(o.userData&&o.userData[k])o.material=o.userData[k]});
+  this.setSize=(w,h,thick)=>{cRT.setSize(w,h);nRT.setSize(w,h);q.material.uniforms.res.value.set(w,h);q.material.uniforms.th.value=thick};
+  this.render=(scene,cam,clearHex,clearA)=>{
+    const oc=renderer.getClearColor(new THREE.Color()),oa=renderer.getClearAlpha();
+    renderer.setRenderTarget(cRT);renderer.setClearColor(clearHex,clearA);renderer.clear();renderer.render(scene,cam);
+    swap(scene,'n');renderer.setRenderTarget(nRT);renderer.setClearColor(0x000000,1);renderer.clear();renderer.render(scene,cam);swap(scene,'c');
+    renderer.setRenderTarget(null);renderer.setClearColor(oc,oa);renderer.clear();renderer.render(qs,qc);
+  };
+}
+const ISO_TH=-Math.PI/4,ISO_PH=Math.acos(1/Math.sqrt(3));
+let has3D=!!window.THREE;
+// 등각 투상도: 모델 전체 범위를 계산해 1:1로 넣고, 자리가 모자라면 1:2로 줄여 배치
+function placeIso(w,h,box){let den=1;while(den<4&&(w/den>box.w||h/den+7>box.h))den++;
+  const W=w/den,H=h/den;return {den,W,H,x:box.x+(box.w-W)/2,y:box.y}}
+function renderIsoToSheet(box){
+  const ir=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true,alpha:true});ir.localClippingEnabled=true;
+  const is=new THREE.Scene();const pg=buildPart(new THREE.MeshBasicMaterial({color:0xffffff,side:THREE.DoubleSide}),hatchTex('#ffffff','#000000'));is.add(pg);
+  const ic=new THREE.OrthographicCamera(-1,1,1,-1,-400,400);
+  const r=150;ic.position.set(r*Math.sin(ISO_PH)*Math.sin(ISO_TH),r*Math.cos(ISO_PH),r*Math.sin(ISO_PH)*Math.cos(ISO_TH));ic.lookAt(0,0,0);ic.updateMatrixWorld();
+  const inv=ic.matrixWorldInverse,v=new THREE.Vector3();let x1=1e9,x2=-1e9,y1=1e9,y2=-1e9;
+  pg.children.forEach(m=>{if(!m.isMesh||m.geometry.type==='PlaneGeometry')return;const p=m.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){v.fromBufferAttribute(p,i).applyMatrix4(inv);x1=Math.min(x1,v.x);x2=Math.max(x2,v.x);y1=Math.min(y1,v.y);y2=Math.max(y2,v.y)}});
+  const m=2;x1-=m;x2+=m;y1-=m;y2+=m;ic.left=x1;ic.right=x2;ic.top=y2;ic.bottom=y1;ic.updateProjectionMatrix();
+  const pl=placeIso(x2-x1,y2-y1,box);
+  // 출력용: 접선을 카메라를 향한 얇은 띠로 그려 선명하게
+  {const vd=new THREE.Vector3();ic.getWorldDirection(vd);const P=[],wd=0.32*pl.den;
+   pg.children.forEach(o=>{if(!o.isLineSegments)return;o.visible=false;const a=o.geometry.attributes.position;
+     for(let i=0;i<a.count;i+=2){const p0=new THREE.Vector3().fromBufferAttribute(a,i),p1=new THREE.Vector3().fromBufferAttribute(a,i+1);
+       const s=new THREE.Vector3().subVectors(p1,p0).cross(vd).normalize().multiplyScalar(wd/2);
+       const A=p0.clone().add(s),B=p0.clone().sub(s),C=p1.clone().sub(s),D=p1.clone().add(s);P.push(A,B,C,A,C,D)}});
+   const rb=new THREE.Mesh(new THREE.BufferGeometry().setFromPoints(P),new THREE.MeshBasicMaterial({color:0x000000,side:THREE.DoubleSide,depthTest:true}));
+   rb.userData={c:rb.material,n:new THREE.MeshBasicMaterial({visible:false})};pg.add(rb)}
+  const ppm=Math.min(10,1800/Math.max(x2-x1,y2-y1)),iw=Math.round((x2-x1)*ppm),ih=Math.round((y2-y1)*ppm);ir.setSize(iw,ih,false);
+  const orr=new OutlineRenderer(ir,0x000000);orr.setSize(iw,ih,pl.den===1?1.6:2.4);orr.render(is,ic,0xffffff,1);
+  const img=document.getElementById('isoImg');img.setAttribute('href',ir.domElement.toDataURL('image/png'));
+  img.setAttribute('x',pl.x);img.setAttribute('y',pl.y);img.setAttribute('width',pl.W);img.setAttribute('height',pl.H);
+  const lb=document.getElementById('isoLbl');lb.setAttribute('x',pl.x+pl.W/2);lb.setAttribute('y',pl.y+pl.H+5);lb.textContent=`등각 투상도 (1:${pl.den})`;
+  ir.dispose();
+}
+if(has3D){try{renderIsoToSheet({x:272,y:40,w:134,h:178});
+}catch(e){console.error(e);has3D=false}}
+let started=false;
+function start3D(){
+  if(started||!has3D)return;started=true;
+  const cv=document.getElementById('c3d');
+  const rd=new THREE.WebGLRenderer({canvas:cv,antialias:false,alpha:true});rd.localClippingEnabled=true;
+  const dpr=Math.min(devicePixelRatio,2);
+  const sc=new THREE.Scene();
+  sc.add(new THREE.HemisphereLight(0xffffff,0x6b7570,.75));
+  const dl=new THREE.DirectionalLight(0xffffff,.7);sc.add(dl);
+  const part=buildPart(new THREE.MeshLambertMaterial({color:0xc3ccc7,side:THREE.DoubleSide}),hatchTex('#eef2ef','#55625b'));sc.add(part);
+  document.getElementById('sec').addEventListener('change',e=>part.userData.setSection(e.target.checked));
+  const orr=new OutlineRenderer(rd,0x111111);
+  const cam=new THREE.OrthographicCamera(-1,1,1,-1,-300,300);
+  let th=ISO_TH,ph=ISO_PH,zoom=1;const tgt={th,ph};
+  function size(){const w=cv.clientWidth,h=cv.clientHeight;const q=dpr*1.6;rd.setSize(Math.round(w*q),Math.round(h*q),false);orr.setSize(Math.round(w*q),Math.round(h*q),q*0.85);
+    const s=85/zoom;cam.left=-s*w/h;cam.right=s*w/h;cam.top=s;cam.bottom=-s;cam.updateProjectionMatrix()}
+  function place(){const r=150;cam.position.set(r*Math.sin(ph)*Math.sin(th),r*Math.cos(ph),r*Math.sin(ph)*Math.cos(th));cam.up.set(0,1,0);cam.lookAt(0,0,0);dl.position.copy(cam.position).add(new THREE.Vector3(40,80,20))}
+  let drag=null,anim=false;
+  cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};cv.setPointerCapture(e.pointerId);anim=false;setPressed(null)});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;th-=(e.clientX-drag.x)*.01;ph=Math.min(Math.PI-.0002,Math.max(.0002,ph-(e.clientY-drag.y)*.01));drag={x:e.clientX,y:e.clientY}});
+  cv.addEventListener('pointerup',()=>drag=null);
+  cv.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(4,Math.max(.5,zoom*(e.deltaY<0?1.1:.9)));size()},{passive:false});
+  const V={front:[-Math.PI/2,Math.PI/2],top:[-Math.PI/2,.0002],right:[0,Math.PI/2],iso:[ISO_TH,ISO_PH]};
+  const btns=[...document.querySelectorAll('.vbtn')];
+  function setPressed(v){btns.forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v?'true':'false'))}
+  btns.forEach(b=>b.addEventListener('click',()=>{const [t,p]=V[b.dataset.v];
+    let dt=t-th;dt=Math.atan2(Math.sin(dt),Math.cos(dt));tgt.th=th+dt;tgt.ph=p;anim=true;setPressed(b.dataset.v)}));
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  new ResizeObserver(size).observe(cv);size();
+  (function loop(){
+    if(anim){const k=reduce?1:.15;th+=(tgt.th-th)*k;ph+=(tgt.ph-ph)*k;if(Math.abs(tgt.th-th)<1e-3&&Math.abs(tgt.ph-ph)<1e-3){th=tgt.th;ph=tgt.ph;anim=false}}
+    place();orr.render(sc,cam,0x000000,0);requestAnimationFrame(loop)})();
+}
+
+const tab2d=document.getElementById('tab2d'),tab3d=document.getElementById('tab3d');
+function showTab(is3){document.getElementById('p2d').hidden=is3;document.getElementById('p3d').hidden=!is3;
+  tab2d.setAttribute('aria-pressed',!is3);tab3d.setAttribute('aria-pressed',is3);if(is3)start3D()}
+tab2d.onclick=()=>showTab(false);tab3d.onclick=()=>showTab(true);
+const sheet=document.getElementById('sheet'),mMono=document.getElementById('mMono'),mCad=document.getElementById('mCad');
+mMono.onclick=()=>{sheet.classList.remove('cad');mMono.setAttribute('aria-pressed','true');mCad.setAttribute('aria-pressed','false')};
+mCad.onclick=()=>{sheet.classList.add('cad');mCad.setAttribute('aria-pressed','true');mMono.setAttribute('aria-pressed','false')};
+
+
+/* ===== 단면 위치 슬라이더 ===== */
+const __caps=[];let __lastCap=null;
+function __regCap(c){if(!__caps.includes(c)){c.__base=c.position.clone();__caps.push(c)}__lastCap=c}
+(()=>{const sec=document.getElementById('sec'),box=document.getElementById('secPosBox'),rg=document.getElementById('secPos'),
+  out=document.getElementById('secOut'),rs=document.getElementById('secReset');if(!sec||!rg)return;
+  let c0=null;
+  const plane=()=>window.__CUT;
+  function range(){const P=plane(),cap=__lastCap;if(!P||!cap||!cap.parent)return;
+    const root=cap.parent;root.updateMatrixWorld(true);const n=P.normal;let lo=1e9,hi=-1e9;
+    root.traverse(o=>{if(!o.isMesh||__caps.includes(o)||!o.geometry)return;
+      const m=Array.isArray(o.material)?o.material[0]:o.material;if(!m||!m.clippingPlanes||!m.clippingPlanes.includes(P))return;
+      o.geometry.computeBoundingBox();const b=o.geometry.boundingBox;if(!b)return;
+      for(const x of [b.min.x,b.max.x])for(const y of [b.min.y,b.max.y])for(const z of [b.min.z,b.max.z]){
+        const v=new THREE.Vector3(x,y,z).applyMatrix4(o.matrixWorld),d=v.dot(n);if(d<lo)lo=d;if(d>hi)hi=d}});
+    if(lo>hi)return;const p0=-c0;rg.min=(Math.floor((lo-p0)*2)/2+0.5).toFixed(1);rg.max=(Math.ceil((hi-p0)*2)/2-0.5).toFixed(1)}
+  function apply(){const P=plane();if(!P||c0===null||!sec.checked)return;const t=+rg.value;
+    P.constant=c0-t;for(const c of __caps)if(c.__base)c.position.copy(c.__base).addScaledVector(P.normal,t);
+    out.textContent=Math.abs(t)<1e-6?'A-A (기준)':`A-A ${t>0?'+':'−'}${Math.abs(t).toFixed(1)} mm`}
+  sec.addEventListener('change',()=>{setTimeout(()=>{if(sec.checked){const P=plane();if(!P)return;c0=P.constant;range();box.hidden=false;apply()}
+    else{box.hidden=true}},0)});
+  rg.addEventListener('input',apply);
+  rs.addEventListener('click',()=>{rg.value=0;apply()});
+})();
+/* ===== 치수 가리기 모드 ===== */
+(()=>{const sheet=document.getElementById('sheet'),b=document.getElementById('mDim'),all=document.getElementById('mDimAll'),st=document.getElementById('dimStat');
+  if(!b)return;let built=false;
+  const groups=()=>[...sheet.querySelectorAll('g.dimg')].filter(g=>g.querySelector('text'));
+  function build(){if(built)return;const NS='http://www.w3.org/2000/svg';
+    for(const g of groups()){for(const t of g.querySelectorAll('text')){if(!t.textContent.trim())continue;let bb;try{bb=t.getBBox()}catch(e){continue}
+      if(!bb.width)continue;const r=document.createElementNS(NS,'rect');r.setAttribute('class','qbox');
+      r.setAttribute('x',bb.x-.6);r.setAttribute('y',bb.y-.3);r.setAttribute('width',bb.width+1.2);r.setAttribute('height',bb.height+.6);r.setAttribute('rx',.6);
+      const tf=t.getAttribute('transform');if(tf)r.setAttribute('transform',tf);g.appendChild(r)}}
+    built=true}
+  function stat(){const G=groups(),s=G.filter(g=>g.classList.contains('show')).length;st.textContent=`확인 ${s} / ${G.length}`}
+  function set(on){if(on&&typeof showTab==='function'&&document.getElementById('p2d').hidden)showTab(false);
+    if(on){build();groups().forEach(g=>g.classList.remove('show'))}
+    sheet.classList.toggle('nodim',on);b.setAttribute('aria-pressed',on);b.textContent=on?'치수 가리기 끄기':'치수 가리기';
+    all.hidden=!on;st.hidden=!on;if(on)stat()}
+  b.onclick=()=>set(!sheet.classList.contains('nodim'));
+  all.onclick=()=>{groups().forEach(g=>g.classList.add('show'));stat()};
+  sheet.addEventListener('click',e=>{if(!sheet.classList.contains('nodim'))return;const g=e.target.closest('g.dimg');if(!g)return;g.classList.toggle('show');stat()});
+})();
+</script>
