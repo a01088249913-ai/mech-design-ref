@@ -92,6 +92,17 @@ footer{font-size:12px;color:var(--muted);text-align:right}
 #sheet.nodim g.dimg .qbox,#sheet.nodim g.dimg.show text{pointer-events:all;cursor:pointer}
 .dimstat{font-size:12px;color:var(--muted);align-self:center;font-variant-numeric:tabular-nums}
 .dimstat[hidden]{display:none}
+
+/* 인쇄 출력 */
+#printbox{display:none}
+@media print{
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  body>*:not(#printbox){display:none!important}
+  #printbox{display:block!important}
+  #printbox #sheet{display:block;min-width:0!important;box-shadow:none!important;--paper:#fff;--ink:#000;width:var(--pw,420mm);height:var(--ph,297mm)}
+  #printbox #sheet.nodim g.dimg:not(.show) .qbox{fill:#fff;fill-opacity:1;stroke:#000;stroke-width:.2}
+  #printbox #sheet.nodim g.dimg.show text{fill:#000}
+}
 </style>
 
 <div class="wrap">
@@ -113,6 +124,11 @@ footer{font-size:12px;color:var(--muted);text-align:right}
       <div class="seg" role="group" aria-label="치수 연습">
         <button id="mDim" aria-pressed="false" title="치수 문자를 가리고, 칸을 눌러 하나씩 확인">치수 가리기</button>
         <button id="mDimAll" hidden>모두 보기</button>
+      </div>
+      
+      <div class="seg" role="group" aria-label="인쇄">
+        <button id="pA3" title="A3 가로, 1:1 실척 인쇄 (치수 가리기 상태 그대로 인쇄)">인쇄 A3</button>
+        <button id="pA4" title="A4 가로에 맞춰 축소 인쇄">A4</button>
       </div>
       <span class="dimstat" id="dimStat" hidden></span>
     </div>
@@ -653,5 +669,21 @@ function __regCap(c){if(!__caps.includes(c)){c.__base=c.position.clone();__caps.
   b.onclick=()=>set(!sheet.classList.contains('nodim'));
   all.onclick=()=>{groups().forEach(g=>g.classList.add('show'));stat()};
   sheet.addEventListener('click',e=>{if(!sheet.classList.contains('nodim'))return;const g=e.target.closest('g.dimg');if(!g)return;g.classList.toggle('show');stat()});
+})();
+
+/* ===== 인쇄 출력 (A3 1:1 / A4 축소) ===== */
+(()=>{const a3=document.getElementById('pA3'),a4=document.getElementById('pA4');if(!a3)return;
+  let st=null,home=null,wasCad=false;
+  function restore(){const sv=document.getElementById('sheet'),box=document.getElementById('printbox');
+    if(home&&sv&&box&&sv.parentNode===box){home.p.insertBefore(sv,home.n);if(wasCad)sv.classList.add('cad')}
+    if(box)box.remove();if(st)st.remove();st=null;home=null}
+  function go(a4m){restore();const sv=document.getElementById('sheet');
+    st=document.createElement('style');st.textContent=a4m?'@page{size:A4 landscape;margin:5mm}#printbox #sheet{--pw:287mm;--ph:200mm}':'@page{size:A3 landscape;margin:0}#printbox #sheet{--pw:420mm;--ph:297mm}';
+    document.head.appendChild(st);const box=document.createElement('div');box.id='printbox';document.body.appendChild(box);
+    home={p:sv.parentNode,n:sv.nextSibling};wasCad=sv.classList.contains('cad');sv.classList.remove('cad');box.appendChild(sv);
+    setTimeout(()=>{try{window.print()}catch(e){restore()}
+      setTimeout(()=>document.addEventListener('pointerdown',restore,{once:true}),300)},50)}
+  window.addEventListener('afterprint',()=>setTimeout(restore,0));
+  a3.onclick=()=>go(false);a4.onclick=()=>go(true);
 })();
 </script>
