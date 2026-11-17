@@ -390,6 +390,44 @@ function loftYZ(P0,x0,P1,x1){
   for(const [P,x,sg] of [[P0,x0,-1],[P1,x1,1]]){const v=P.map(p=>new THREE.Vector2(p[0],p[1]));
     for(const t of THREE.ShapeUtils.triangulateShape(v,[]))push(Wv(x,...P[t[0]]),Wv(x,...P[t[1]]),Wv(x,...P[t[2]]),[sg,0,0])}
   const g=new THREE.BufferGeometry().setFromPoints(tri);g.computeVertexNormals();return g}
+// 보스 구멍 모서리 아래쪽 띠: 구멍 벽(Ø20)과 보어 윗면(Ø24) 사이를 채우는 입체 (법선은 곡면 그대로)
+function boreBand(sx,sy){
+  const h=BOSS.rh,ri=COL.ri,zt=ZC+ri,n=24,m=10,P=[],N=[];
+  const V=(x,y,z)=>[x-CX,z-CZ,y-CY];
+  const zb=y=>ZC+Math.sqrt(Math.max(0,ri*ri-(y-YC)**2));
+  const hw=x=>Math.sqrt(Math.max(0,h*h-(x-BOSS.x)**2));
+  const X=i=>BOSS.x+sx*h*i/n;
+  const quad=(a,b,c,d,na,nb,nc,nd,want)=>{const A=V(...a),B=V(...b),C=V(...c);
+    const e1=[B[0]-A[0],B[1]-A[1],B[2]-A[2]],e2=[C[0]-A[0],C[1]-A[1],C[2]-A[2]];
+    const cr=[e1[1]*e2[2]-e1[2]*e2[1],e1[2]*e2[0]-e1[0]*e2[2],e1[0]*e2[1]-e1[1]*e2[0]];
+    const w=V(...want).map((v,k)=>v-[-CX,-CZ,-CY][k]);const flip=cr[0]*w[0]+cr[1]*w[1]+cr[2]*w[2]<0;
+    const T=flip?[[a,na],[c,nc],[b,nb],[a,na],[d,nd],[c,nc]]:[[a,na],[b,nb],[c,nc],[a,na],[c,nc],[d,nd]];
+    for(const [p,nn] of T){P.push(...V(...p));const q=V(...nn).map((v,k)=>v-[-CX,-CZ,-CY][k]);const l=Math.hypot(...q)||1;N.push(q[0]/l,q[1]/l,q[2]/l)}};
+  const nB=(y,z)=>[0,-(y-YC),-(z-ZC)], nH=(x,y)=>[-(x-BOSS.x),-(y-YC),0];
+  for(let i=0;i<n;i++){const x0=X(i),x1=X(i+1);
+    for(let j=0;j<m;j++){const s0=j/m,s1=(j+1)/m;
+      const yy=(x,s)=>YC+sy*(hw(x)+s*(h-hw(x)));
+      const a=[x0,yy(x0,s0)],b=[x1,yy(x1,s0)],c=[x1,yy(x1,s1)],d=[x0,yy(x0,s1)];
+      // 아랫면(보어 곡면)
+      quad([...a,zb(a[1])],[...b,zb(b[1])],[...c,zb(c[1])],[...d,zb(d[1])],
+        nB(a[1],zb(a[1])),nB(b[1],zb(b[1])),nB(c[1],zb(c[1])),nB(d[1],zb(d[1])),[0,0,-1]);
+      // 윗면(z=ZC+ri)
+      quad([...a,zt],[...b,zt],[...c,zt],[...d,zt],[0,0,1],[0,0,1],[0,0,1],[0,0,1],[0,0,1]);
+      const t0=j/m,t1=(j+1)/m;
+      // 구멍 벽
+      const y0=YC+sy*hw(x0),y1=YC+sy*hw(x1),z=(y,t)=>zb(y)+t*(zt-zb(y));
+      quad([x0,y0,z(y0,t0)],[x1,y1,z(y1,t0)],[x1,y1,z(y1,t1)],[x0,y0,z(y0,t1)],
+        nH(x0,y0),nH(x1,y1),nH(x1,y1),nH(x0,y0),[-sx*(x0-BOSS.x)*0-(x0+x1)/2+BOSS.x,-sy,0]);
+      // 바깥 옆면 y=YC+sy*h
+      const yo=YC+sy*h;
+      quad([x0,yo,z(yo,t0)],[x1,yo,z(yo,t0)],[x1,yo,z(yo,t1)],[x0,yo,z(yo,t1)],[0,sy,0],[0,sy,0],[0,sy,0],[0,sy,0],[0,sy,0]);
+    }}
+  // 끝면 x=BOSS.x+sx*h (구멍 폭 0 → y: YC..YC+sy*h)
+  const xe=BOSS.x+sx*h;
+  for(let j=0;j<m;j++){const ya=YC+sy*h*j/m,yb=YC+sy*h*(j+1)/m;
+    quad([xe,ya,zb(ya)],[xe,yb,zb(yb)],[xe,yb,zt],[xe,ya,zt],[sx,0,0],[sx,0,0],[sx,0,0],[sx,0,0],[sx,0,0]);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(P,3));
+  g.setAttribute('normal',new THREE.Float32BufferAttribute(N,3));return g}
 function partGeos(){
   const G=[],bore=circAt(YC,ZC,COL.ri,64);
   // 몸체 = 위아래 R25 반원(스타디움) 단면, 장공 관통; 보스 구멍 구간은 구멍 자리를 비운 단면
@@ -400,11 +438,11 @@ function partGeos(){
   const mid=[...arcPts(YC,ZC,R,aL,180,24),...arcPts(YC,0,R,180,360,32),...arcPts(YC,ZC,R,0,aR,24),[YC+BOSS.rh,zB],...arcPts(YC,ZC,COL.ri,bR,bL-360,64).slice(1,-1),[YC-BOSS.rh,zB]];
   G.push(exYZ(mid,[SLOTP],BOSS.x-BOSS.rh,BOSS.x+BOSS.rh));
   // 보스(구멍 포함) + 구멍 둘레 채움
-  G.push(exXY(circAt(BOSS.x,YC,BOSS.r,64),[circAt(BOSS.x,YC,BOSS.rh,48)],ZC,BOSS.top));
+  G.push(exXY(circAt(BOSS.x,YC,BOSS.r,64),[circAt(BOSS.x,YC,BOSS.rh,48)],ZC+COL.ri,BOSS.top));  // 보어 안으로 들어가지 않게 보어 꼭대기부터
   for(const [sx,sy] of [[-1,-1],[1,-1],[1,1],[-1,1]]){
     const cx=BOSS.x,cy=YC,h=BOSS.rh,a0=Math.atan2(0,sx)*180/Math.PI;
     const pts=[[cx+sx*h,cy+sy*h],[cx,cy+sy*h],...arcPts(cx,cy,h,sy>0?90:270,sx>0?(sy>0?0:360):180,12).slice(1,-1),[cx+sx*h,cy]];
-    G.push(exXY(pts,[],ZC+COL.ri,BOSS.top));
+    G.push(exXY(pts,[],ZC+COL.ri,BOSS.top-3));  // 윗면은 보스 안쪽에 두어 겹침 무늬 방지
   }
   // 양쪽 팔
   G.push(exYZ(ARMP_L,[],ARM.x0,ARM.x1));G.push(exYZ(ARMP_R,[],ARM.x0,ARM.x1));
@@ -419,6 +457,8 @@ function partGeos(){
     G.push(loftYZ(piece(COL.ro-COL.ch,up),COL.x0,piece(COL.ro,up),COL.x0+COL.ch));
     G.push(exYZ(piece(COL.ro,up),[],COL.x0+COL.ch,COL.x0+COL.nd));
   }
+  // 보스 구멍(Ø20)과 보어(Ø24) 사이: 구멍 둘레 네 모서리를 보어 윗면까지 채움 (빈 틈 없앰)
+  for(const [sx,sy] of [[-1,-1],[1,-1],[1,1],[-1,1]])G.push(boreBand(sx,sy));
   return G;
 }
 // 단면 해칭 텍스처
